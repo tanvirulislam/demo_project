@@ -1,7 +1,5 @@
-#include "C:\Program Files (x86)\Inno Download Plugin\idp.iss"
-
 #define MyAppName "Demo App"
-#define MyAppVersion "1.8"
+#define MyAppVersion "1.17"
 #define MyAppPublisher "My Company, Inc."
 #define MyAppURL "https://www.example.com/"
 #define MyAppExeName "demo_project.exe"
@@ -29,6 +27,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+
+[Dirs]
+Name: "{app}\logs"; Permissions: users-modify
 
 [Files]
 Source: "C:\Users\AGL\Desktop\demo\demo_project\build\windows\x64\runner\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
@@ -124,49 +125,6 @@ begin
       Result := False;
       MsgBox('The application requires these components to function properly. ' +
              'Installation will now exit.', mbError, MB_OK);
-    end;
-  end;
-end;
-
-function NextButtonClick(CurPageID: Integer): Boolean;
-var
-  ResultCode: Integer;
-begin
-  Result := True;
-
-  if CurPageID = wpReady then
-  begin
-    DownloadPage.Clear;
-    
-    if NeedsVC2022 then
-      DownloadPage.Add('https://aka.ms/vs/17/release/vc_redist.x64.exe', 'vc_redist.x64.exe', '');
-    if NeedsDirectX then
-      DownloadPage.Add('https://download.microsoft.com/download/1/7/1/1718CCC4-6315-4D8E-9543-8E28A4E18C4C/dxwebsetup.exe', 'dxwebsetup.exe', '');
-    if NeedsWebView2 then
-      DownloadPage.Add('https://go.microsoft.com/fwlink/p/?LinkId=2124703', 'MicrosoftEdgeWebView2Setup.exe', '');
-
-    // Only show download page if there are files to download
-    if DownloadPage.FileCount > 0 then
-    begin
-      DownloadPage.Show;
-      try
-        try
-          DownloadPage.Download;
-          
-          // Install the downloaded files
-          if NeedsVC2022 then
-            Exec(ExpandConstant('{tmp}\vc_redist.x64.exe'), '/passive /norestart', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-          if NeedsDirectX then
-            Exec(ExpandConstant('{tmp}\dxwebsetup.exe'), '/passive /norestart', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-          if NeedsWebView2 then
-            Exec(ExpandConstant('{tmp}\MicrosoftEdgeWebView2Setup.exe'), '/silent /install', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-            
-        except
-          Log('Failed to download or install components');
-        end;
-      finally
-        DownloadPage.Hide;
-      end;
     end;
   end;
 end;
