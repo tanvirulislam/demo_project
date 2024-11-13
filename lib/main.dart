@@ -19,7 +19,6 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
 
     final logFile = await getLogFile();
-
     try {
       final time = DateTime.now().toString();
       logFile.writeAsStringSync(
@@ -28,7 +27,6 @@ void main() async {
     } catch (e) {
       print('Failed to write initial log: $e');
     }
-
     logger = Logger(
       printer: PrettyPrinter(
         methodCount: 2,
@@ -43,7 +41,6 @@ void main() async {
 
     FlutterError.onError = (FlutterErrorDetails details) {
       try {
-        int.parse('');
         final timestamp = DateTime.now().toString();
         logFile.writeAsStringSync(
           '$timestamp -   ${logFile.uri} Flutter Error:\n${details.exception}\n${details.stack}\n',

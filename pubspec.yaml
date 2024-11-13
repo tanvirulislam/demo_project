@@ -38,6 +38,7 @@ dependencies:
   logger: ^2.4.0
   path_provider: ^2.1.5
   path: ^1.9.0
+  render: ^0.1.4
 
 dev_dependencies:
   flutter_test:
