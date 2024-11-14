@@ -1,5 +1,5 @@
 #define MyAppName "Demo App"
-#define MyAppVersion "1.17"
+#define MyAppVersion "1.20"
 #define MyAppPublisher "My Company, Inc."
 #define MyAppURL "https://www.example.com/"
 #define MyAppExeName "demo_project.exe"

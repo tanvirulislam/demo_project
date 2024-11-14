@@ -1,23 +1,18 @@
+import 'package:demo_project/fps.monitor.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:path/path.dart' as path;
 
+import 'fps.controller.dart';
+
 late Logger logger;
 
-Future<File> getLogFile() async {
-  final appDocDir = await getApplicationDocumentsDirectory();
-
-  final logsDir = Directory(appDocDir.path);
-  if (!logsDir.existsSync()) logsDir.createSync();
-  return File(path.join(logsDir.path, 'app_log.txt'));
-}
-
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  FPSController.initialize();
   try {
-    WidgetsFlutterBinding.ensureInitialized();
-
     final logFile = await getLogFile();
 
     try {
@@ -72,6 +67,14 @@ void main() async {
   }
 }
 
+Future<File> getLogFile() async {
+  final appDocDir = await getApplicationDocumentsDirectory();
+
+  final logsDir = Directory(appDocDir.path);
+  if (!logsDir.existsSync()) logsDir.createSync();
+  return File(path.join(logsDir.path, 'app_log.txt'));
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -86,7 +89,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Demo App without package'),
+      // home: const MyHomePage(title: 'Demo App without package'),
+      home: const FPSMonitor(),
     );
   }
 }
@@ -114,11 +118,11 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Hello', textScaleFactor: 3),
+            const Text('Hello', textScaleFactor: 3),
           ],
         ),
       ),
