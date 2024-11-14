@@ -11,7 +11,7 @@ late Logger logger;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FPSController.initialize();
+  FPSController.initialize(defaultFPS: 30);
   try {
     final logFile = await getLogFile();
 

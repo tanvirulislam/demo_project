@@ -1,4 +1,3 @@
-import 'package:demo_project/fps.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -69,10 +68,6 @@ class _FPSMonitorState extends State<FPSMonitor> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Target FPS: ${FPSController.currentFPS.toStringAsFixed(1)}',
-                    style: const TextStyle(fontSize: 30),
-                  ),
                   Text(
                     'FPS: ${_fps.toStringAsFixed(1)}',
                     style: TextStyle(
