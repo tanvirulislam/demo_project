@@ -11,18 +11,13 @@ late Logger logger;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FPSController.initialize(defaultFPS: 30);
+  FPSLimiter.initialize();
   try {
     final logFile = await getLogFile();
-
-    try {
-      final time = DateTime.now().toString();
-      logFile.writeAsStringSync(
-        '$time - Application starting...   ${logFile.path} ',
-      );
-    } catch (e) {
-      print('Failed to write initial log: $e');
-    }
+    final time = DateTime.now().toString();
+    logFile.writeAsStringSync(
+      '$time - Application starting...   ${logFile.path} ',
+    );
 
     logger = Logger(
       printer: PrettyPrinter(
@@ -75,8 +70,19 @@ Future<File> getLogFile() async {
   return File(path.join(logsDir.path, 'app_log.txt'));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void dispose() {
+    FPSLimiter.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +97,13 @@ class MyApp extends StatelessWidget {
       ),
       // home: const MyHomePage(title: 'Demo App without package'),
       home: const FPSMonitor(),
+      // home: const ShowFPS(
+      //   alignment: Alignment.topLeft,
+      //   visible: true,
+      //   showChart: true,
+      //   borderRadius: BorderRadius.all(Radius.circular(11)),
+      //   child: FPSMonitor(),
+      // ),
     );
   }
 }

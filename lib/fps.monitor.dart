@@ -55,10 +55,10 @@ class _FPSMonitorState extends State<FPSMonitor> {
           'FPS: ${_fps.toStringAsFixed(1)}',
           style: TextStyle(
             color: _fps < 30
-                ? Colors.red
+                ? Colors.green
                 : _fps < 60
-                    ? Colors.green
-                    : Colors.orange,
+                    ? Colors.amber
+                    : Colors.red,
             fontSize: 30,
           ),
         ),
@@ -72,10 +72,10 @@ class _FPSMonitorState extends State<FPSMonitor> {
                     'FPS: ${_fps.toStringAsFixed(1)}',
                     style: TextStyle(
                       color: _fps < 30
-                          ? Colors.red
+                          ? Colors.green
                           : _fps < 60
-                              ? Colors.green
-                              : Colors.amber,
+                              ? Colors.amber
+                              : Colors.red,
                       fontSize: 30,
                     ),
                   ),
