@@ -71,15 +71,15 @@ import 'dart:developer';
 import 'package:flutter/scheduler.dart';
 
 class FPSLimiter {
-  static const int MAX_FPS = 30; // Strict 30 FPS cap
+  static const int maxFps = 30; // Strict 30 FPS cap
   static bool _isInitialized = false;
   static const Duration _frameTime =
-      Duration(microseconds: (1000000 ~/ MAX_FPS));
+      Duration(microseconds: (1000000 ~/ maxFps));
   static int _lastFrameTime = 0;
   static bool _frameScheduled = false;
 
   static bool get isInitialized => _isInitialized;
-  static int get targetFPS => MAX_FPS;
+  static int get targetFPS => maxFps;
 
   static void initialize() {
     if (!_isInitialized) {
@@ -87,7 +87,7 @@ class FPSLimiter {
         SchedulerBinding.instance.addTimingsCallback(_onFrameTimings);
         _lastFrameTime = DateTime.now().microsecondsSinceEpoch;
         _isInitialized = true;
-        log('FPS Limiter initialized at $MAX_FPS FPS');
+        log('FPS Limiter initialized at $maxFps FPS');
       } catch (e) {
         log('Failed to initialize FPS Limiter: $e');
         _isInitialized = false;
